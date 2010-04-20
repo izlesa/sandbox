@@ -1,8 +1,12 @@
 import feedparser
+import re
 
 mdl = feedparser.parse("http://www.malwaredomainlist.com/hostslist/mdl.xml")
 
-print mdl.feed.title
-
 for entry in mdl.entries:
-	print entry
+	match = re.search(ur"Host: ([\S.]+),", entry.description)
+	if(match == False):
+	    match = re.search(ur"IP address: ([\S.]+),", entry.description)
+
+	print match.group(1)
+
